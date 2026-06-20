@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TaskStatus {
+  ABIERTA
+  EN_CURSO
+  COMPLETADA
+  CANCELADA
+}
+
+enum ApplicationStatus {
+  PENDIENTE
+  ACEPTADA
+  RECHAZADA
+}
+
+enum Category {
+  TRAMITES
+  MANDADOS
+  MUDANZAS
+  DELIVERY
+  LIMPIEZA
+  TECNOLOGIA
+  CUIDADO_PERSONAS
+  ACOMPANAMIENTO_MEDICO
+  OTROS
+}
+
+enum PagoEstado {
+  PENDIENTE
+  PROCESANDO
+  RETENIDO
+  LIBERADO
+  REEMBOLSADO
+  FALLIDO
+}
+
+model User {
+  id                      String   @id @default(cuid())
+  nombre                  String
+  email                   String   @unique
+  password                String
+  foto                    String?
+  descripcion             String?
+  zona                    String?
+  telefono                String?
+  calificacionProm        Float    @default(0)
+  totalCalificaciones     Int      @default(0)
+  changasRealizadas       Int      @default(0)
+  esChangador             Boolean  @default(true)
+  esContratante           Boolean  @default(true)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  tareasPublicadas        Tarea[]           @relation("TareaContratante")
+  postulaciones           Postulacion[]     @relation("PostulacionChangador")
+  mensajesEnviados        Mensaje[]         @relation("MensajeEmisor")
+  calificacionesDadas     Calificacion[]    @relation("CalifAutor")
+  calificacionesRecibidas Calificacion[]    @relation("CalifDestinatario")
+  pagosRealizados         Pago[]            @relation("PagoPagador")
+  pagosRecibidos          Pago[]            @relation("PagoReceptor")
+}
+
+model Tarea {
+  id                            String     @id @default(cuid())
+  titulo                        String
+  descripcion                   String
+  categoria                     Category
+  zona                          String
+  presupuesto                   Float?
+  esAConvenir                   Boolean    @default(false)
+  estado                        TaskStatus @default(ABIERTA)
+  fotos                         String[]
+  fechaLimite                   DateTime?
+  // Precio acordado entre contratante y changador en el chat
+  precioAcordado                Float?
+  precioAcordadoPropuesto       Float?
+  precioAcordadoPropuestoPorId  String?
+  createdAt                     DateTime   @default(now())
+  updatedAt                     DateTime   @updatedAt
+
+  contratanteId    String
+  contratante      User        @relation("TareaContratante", fields: [contratanteId], references: [id], onDelete: Cascade)
+
+  postulaciones    Postulacion[]
+  mensajes         Mensaje[]
+  calificaciones   Calificacion[]
+  pago             Pago?
+}
+
+model Postulacion {
+  id              String            @id @default(cuid())
+  mensaje         String
+  precioOfrecido  Float?
+  estado          ApplicationStatus @default(PENDIENTE)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  changadorId     String
+  changador       User              @relation("PostulacionChangador", fields: [changadorId], references: [id], onDelete: Cascade)
+
+  tareaId         String
+  tarea           Tarea             @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+
+  @@unique([changadorId, tareaId])
+}
+
+model Mensaje {
+  id        String   @id @default(cuid())
+  contenido String
+  createdAt DateTime @default(now())
+
+  emisorId  String
+  emisor    User     @relation("MensajeEmisor", fields: [emisorId], references: [id], onDelete: Cascade)
+
+  tareaId   String
+  tarea     Tarea    @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+}
+
+model Calificacion {
+  id             String   @id @default(cuid())
+  puntaje        Int
+  comentario     String?
+  createdAt      DateTime @default(now())
+
+  autorId        String
+  autor          User     @relation("CalifAutor", fields: [autorId], references: [id], onDelete: Cascade)
+
+  destinatarioId String
+  destinatario   User     @relation("CalifDestinatario", fields: [destinatarioId], references: [id], onDelete: Cascade)
+
+  tareaId        String
+  tarea          Tarea    @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+
+  @@unique([autorId, tareaId])
+}
+
+model Pago {
+  id                       String     @id @default(cuid())
+  monto                    Float
+  estado                   PagoEstado @default(PENDIENTE)
+  mercadoPagoPaymentId     String?
+  mercadoPagoPreferenceId  String?
+  // Mismo que tareaId pero como campo independiente para búsqueda por external_reference
+  externalReference        String     @unique
+  fechaCreacion            DateTime   @default(now())
+  fechaLiberacion          DateTime?
+
+  tareaId                  String     @unique
+  tarea                    Tarea      @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+
+  pagadorId                String
+  pagador                  User       @relation("PagoPagador", fields: [pagadorId], references: [id])
+
+  receptorId               String
+  receptor                 User       @relation("PagoReceptor", fields: [receptorId], references: [id])
+}
