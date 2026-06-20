@@ -1,11 +1,12 @@
 import { io } from 'socket.io-client';
+import { API_BASE_URL } from '../config';
 
 let socket = null;
 
 export const connectSocket = (token, userId) => {
   if (socket?.connected) return socket;
 
-  socket = io('/', {
+  socket = io(API_BASE_URL || '/', {
     auth: { token },
     transports: ['websocket', 'polling'],
   });
