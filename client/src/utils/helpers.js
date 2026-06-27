@@ -24,7 +24,7 @@ export const CATEGORIAS = {
 
 export const ESTADOS = {
   ABIERTA: { label: 'Abierta', color: 'bg-green-100 text-green-800' },
-  EN_CURSO: { label: 'En curso', color: 'bg-blue-100 text-blue-800' },
+  EN_CURSO: { label: 'En curso', color: 'bg-primary-100 text-primary-800' },
   COMPLETADA: { label: 'Completada', color: 'bg-gray-100 text-gray-700' },
   CANCELADA: { label: 'Cancelada', color: 'bg-red-100 text-red-700' },
 };

@@ -108,7 +108,7 @@ export default function Landing() {
             ].map((item) => (
               <div key={item.step} className={`card border-2 ${item.color} p-8 text-center`}>
                 <div className="text-5xl mb-4">{item.emoji}</div>
-                <div className="w-8 h-8 rounded-full bg-primary-600 text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
+                <div className="w-8 h-8 rounded-full bg-primary-600 text-primary-900 font-bold text-sm flex items-center justify-center mx-auto mb-3">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
@@ -230,12 +230,11 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-8">
+      <footer className="bg-primary-900 text-white/50 py-8">
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <span className="text-white font-black text-xl">Mi</span>
-            <span className="text-accent-400 font-black text-xl">Changa</span>
-            <span className="ml-3 text-sm">El marketplace de changas en Argentina 🇦🇷</span>
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="MiChanga" className="h-7 w-auto" />
+            <span className="text-sm">El marketplace de changas en Argentina 🇦🇷</span>
           </div>
           <p className="text-sm">Hecho con ❤️ en Buenos Aires</p>
         </div>

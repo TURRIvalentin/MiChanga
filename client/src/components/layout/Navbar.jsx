@@ -38,31 +38,36 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  const navLink = (path) =>
+    `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive(path)
+      ? 'text-white bg-white/15'
+      : 'text-white/60 hover:text-white hover:bg-white/10'
+    }`;
+
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+    <header className="bg-primary-900 sticky top-0 z-40 shadow-md">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl font-black text-primary-700">Mi</span>
-            <span className="text-2xl font-black text-accent-500">Changa</span>
+          <Link to="/" className="flex items-center">
+            <img src="/logo.png" alt="MiChanga" className="h-20 w-auto" />
           </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
-            <Link to="/changas" className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/changas') ? 'text-primary-700 bg-primary-50' : 'text-gray-600 hover:text-primary-700 hover:bg-gray-50'}`}>
+            <Link to="/changas" className={navLink('/changas')}>
               Ver changas
             </Link>
             {user && (
               <>
-                <Link to="/mis-changas" className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/mis-changas') ? 'text-primary-700 bg-primary-50' : 'text-gray-600 hover:text-primary-700 hover:bg-gray-50'}`}>
+                <Link to="/mis-changas" className={navLink('/mis-changas')}>
                   Mis changas
                 </Link>
-                <Link to="/mis-postulaciones" className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/mis-postulaciones') ? 'text-primary-700 bg-primary-50' : 'text-gray-600 hover:text-primary-700 hover:bg-gray-50'}`}>
+                <Link to="/mis-postulaciones" className={navLink('/mis-postulaciones')}>
                   Mis postulaciones
                 </Link>
                 {PAYMENTS_ENABLED && (
-                  <Link to="/mis-pagos" className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${isActive('/mis-pagos') ? 'text-primary-700 bg-primary-50' : 'text-gray-600 hover:text-primary-700 hover:bg-gray-50'}`}>
+                  <Link to="/mis-pagos" className={navLink('/mis-pagos')}>
                     Mis pagos
                   </Link>
                 )}
@@ -77,30 +82,30 @@ export default function Navbar() {
                 <Link to="/publicar" className="btn-accent py-2 px-4 text-sm flex items-center gap-1.5">
                   <Plus className="w-4 h-4" /> Publicar changa
                 </Link>
-                <Link to={`/perfil/${user.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                <Link to={`/perfil/${user.id}`} className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors">
                   {user.foto ? (
                     <img src={user.foto} alt={user.nombre} className="w-8 h-8 rounded-full object-cover" />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
-                      <span className="text-primary-700 font-semibold text-sm">{user.nombre[0]}</span>
+                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                      <span className="text-white font-semibold text-sm">{user.nombre[0]}</span>
                     </div>
                   )}
-                  <span className="text-sm font-medium text-gray-700">{user.nombre.split(' ')[0]}</span>
+                  <span className="text-sm font-medium text-white/80">{user.nombre.split(' ')[0]}</span>
                 </Link>
-                <button onClick={handleLogout} className="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50" title="Salir">
+                <button onClick={handleLogout} className="p-2 text-white/40 hover:text-red-400 transition-colors rounded-lg hover:bg-red-900/30" title="Salir">
                   <LogOut className="w-5 h-5" />
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className="text-sm font-medium text-gray-600 hover:text-primary-700 transition-colors px-3 py-2">Entrar</Link>
+                <Link to="/login" className="text-sm font-medium text-white/60 hover:text-white transition-colors px-3 py-2">Entrar</Link>
                 <Link to="/register" className="btn-primary py-2 px-4 text-sm">Registrarse gratis</Link>
               </>
             )}
           </div>
 
           {/* Mobile hamburger */}
-          <button className="md:hidden p-2 rounded-lg text-gray-600" onClick={() => setMenuOpen(!menuOpen)}>
+          <button className="md:hidden p-2 rounded-lg text-white" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -108,36 +113,36 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-4 py-3 flex flex-col gap-1">
-          <Link to="/changas" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-            <Briefcase className="w-5 h-5 text-gray-400" /> Ver changas
+        <div className="md:hidden bg-primary-900 border-t border-white/10 px-4 py-3 flex flex-col gap-1">
+          <Link to="/changas" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">
+            <Briefcase className="w-5 h-5 text-white/40" /> Ver changas
           </Link>
           {user ? (
             <>
-              <Link to="/publicar" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-accent-600 hover:bg-accent-50 font-medium">
+              <Link to="/publicar" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-primary-400 hover:bg-white/10 font-medium">
                 <Plus className="w-5 h-5" /> Publicar changa
               </Link>
-              <Link to="/mis-changas" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-                <ClipboardList className="w-5 h-5 text-gray-400" /> Mis changas
+              <Link to="/mis-changas" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">
+                <ClipboardList className="w-5 h-5 text-white/40" /> Mis changas
               </Link>
-              <Link to="/mis-postulaciones" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-                <Bell className="w-5 h-5 text-gray-400" /> Mis postulaciones
+              <Link to="/mis-postulaciones" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">
+                <Bell className="w-5 h-5 text-white/40" /> Mis postulaciones
               </Link>
               {PAYMENTS_ENABLED && (
-                <Link to="/mis-pagos" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-                  <Wallet className="w-5 h-5 text-gray-400" /> Mis pagos
+                <Link to="/mis-pagos" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">
+                  <Wallet className="w-5 h-5 text-white/40" /> Mis pagos
                 </Link>
               )}
-              <Link to={`/perfil/${user.id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">
-                <User className="w-5 h-5 text-gray-400" /> Mi perfil
+              <Link to={`/perfil/${user.id}`} onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">
+                <User className="w-5 h-5 text-white/40" /> Mi perfil
               </Link>
-              <button onClick={handleLogout} className="flex items-center gap-3 px-3 py-3 rounded-lg text-red-600 hover:bg-red-50 font-medium w-full text-left">
+              <button onClick={handleLogout} className="flex items-center gap-3 px-3 py-3 rounded-lg text-red-400 hover:bg-red-900/30 font-medium w-full text-left">
                 <LogOut className="w-5 h-5" /> Cerrar sesión
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" onClick={() => setMenuOpen(false)} className="px-3 py-3 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">Entrar</Link>
+              <Link to="/login" onClick={() => setMenuOpen(false)} className="px-3 py-3 rounded-lg text-white/70 hover:bg-white/10 hover:text-white font-medium">Entrar</Link>
               <Link to="/register" onClick={() => setMenuOpen(false)} className="btn-primary text-center mt-1">Registrarse gratis</Link>
             </>
           )}
