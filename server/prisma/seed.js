@@ -49,7 +49,7 @@ async function main() {
       nombre: 'Ana Martínez',
       email: 'ana@example.com',
       password: passwordHash,
-      descripcion: 'Técnica en computación. Arreglo computadoras, instalo programas, enseño a usar el celular y la computadora. Mucha paciencia.',
+      descripcion: 'Hago limpieza de vidrios, vereda y jardín. Trabajo prolija y rápido. Referencias disponibles.',
       zona: 'Belgrano',
       telefono: '011-1545-3456',
       foto: 'https://i.pravatar.cc/150?img=9',
@@ -64,7 +64,7 @@ async function main() {
       nombre: 'Juan Pérez',
       email: 'juan@example.com',
       password: passwordHash,
-      descripcion: 'Jubilado activo, necesito ayuda ocasional con trámites y mandados. Vivo en San Telmo.',
+      descripcion: 'Jubilado activo, necesito ayuda ocasional con trámites y el jardín. Vivo en San Telmo.',
       zona: 'San Telmo',
       telefono: '011-1567-1234',
       foto: 'https://i.pravatar.cc/150?img=17',
@@ -79,7 +79,7 @@ async function main() {
       nombre: 'Laura Sánchez',
       email: 'laura@example.com',
       password: passwordHash,
-      descripcion: 'Enfermera con experiencia en cuidado de personas mayores y acompañamiento médico. Referencias disponibles.',
+      descripcion: 'Limpieza de vidrios y ventanas, barrido de vereda. Trabajo en altura con arnés. Zona norte GBA y CABA.',
       zona: 'Villa Crespo',
       telefono: '011-1578-6789',
       foto: 'https://i.pravatar.cc/150?img=25',
@@ -94,7 +94,7 @@ async function main() {
       nombre: 'Roberto Díaz',
       email: 'roberto@example.com',
       password: passwordHash,
-      descripcion: 'Hago mandados, compras y trámites bancarios. Conozco bien el barrio de Caballito y alrededores.',
+      descripcion: 'Corto el pasto, hago jardinería básica y limpieza de exteriores. Tengo mis propias herramientas.',
       zona: 'Caballito',
       telefono: '011-1512-4567',
       foto: 'https://i.pravatar.cc/150?img=33',
@@ -104,14 +104,14 @@ async function main() {
     },
   });
 
-  // Changas
+  // Changas — una por cada categoría + algunas extras para volumen
   const tarea1 = await prisma.tarea.create({
     data: {
-      titulo: 'Necesito que vayan al ANSES a hacer un trámite',
-      descripcion: 'Tengo que actualizar el CBU en ANSES pero no puedo moverme de casa. Necesito que vayan con todos los papeles (los tengo preparados) y hagan el trámite. La oficina queda en Av. de Mayo al 600. Pago viáticos y el servicio.',
-      categoria: 'TRAMITES',
-      zona: 'Almagro',
-      presupuesto: 3500,
+      titulo: 'Cortar el pasto del jardín delantero',
+      descripcion: 'Jardín pequeño (aprox 30m²) en casa de Palermo. El pasto está alto, necesita corte y rastrillado. Cuento con manguera, falta cortadora y operador. Disponible cualquier día de semana.',
+      categoria: 'CORTE_PASTO',
+      zona: 'Palermo',
+      presupuesto: 4000,
       esAConvenir: false,
       estado: 'ABIERTA',
       contratanteId: juan.id,
@@ -121,8 +121,46 @@ async function main() {
 
   const tarea2 = await prisma.tarea.create({
     data: {
+      titulo: 'Barrer y limpiar la vereda del local',
+      descripcion: 'Local comercial en Caballito. Vereda de 15 metros lineales, hay hojas y tierra acumulada. Necesito barrido, levantado de residuos y lavado con agua. Lunes a las 7am antes de abrir.',
+      categoria: 'BARRIDO_VEREDA',
+      zona: 'Caballito',
+      presupuesto: 2000,
+      esAConvenir: false,
+      estado: 'ABIERTA',
+      contratanteId: maria.id,
+    },
+  });
+
+  const tarea3 = await prisma.tarea.create({
+    data: {
+      titulo: 'Limpieza de vidrios exteriores — piso 4',
+      descripcion: 'Departamento de 3 ambientes en piso 4 con balcón. Vidrios y ventanas externas sin limpiar hace 6 meses. Necesito alguien con experiencia en altura y sus propios materiales.',
+      categoria: 'LIMPIEZA_VIDRIOS',
+      zona: 'Recoleta',
+      esAConvenir: true,
+      estado: 'ABIERTA',
+      contratanteId: juan.id,
+    },
+  });
+
+  const tarea4 = await prisma.tarea.create({
+    data: {
+      titulo: 'Lavado de auto a domicilio (Volkswagen Gol)',
+      descripcion: 'Necesito lavado exterior e interior de un VW Gol. Tengo espacio en el garaje con toma de agua. Que traigan sus propios productos. Preferentemente sábado a la mañana.',
+      categoria: 'LAVADO_AUTO',
+      zona: 'Floresta',
+      presupuesto: 3500,
+      esAConvenir: false,
+      estado: 'ABIERTA',
+      contratanteId: roberto.id,
+    },
+  });
+
+  const tarea5 = await prisma.tarea.create({
+    data: {
       titulo: 'Mudanza de monoambiente en Palermo',
-      descripcion: 'Me mudo de un monoambiente a otro a 10 cuadras. Tengo cama de una plaza, ropero chico, mesa con 4 sillas, heladera pequeña y cajas. Se necesita camioneta o auto grande. Ayuda para cargar y descargar.',
+      descripcion: 'Me mudo de un monoambiente a otro a 10 cuadras. Tengo cama de una plaza, ropero chico, mesa con 4 sillas y cajas. Se necesita camioneta o auto grande. Ayuda para cargar y descargar.',
       categoria: 'MUDANZAS',
       zona: 'Palermo',
       presupuesto: 8000,
@@ -133,63 +171,25 @@ async function main() {
     },
   });
 
-  const tarea3 = await prisma.tarea.create({
-    data: {
-      titulo: 'Limpieza profunda 3 ambientes en Recoleta',
-      descripcion: 'Limpieza general de departamento de 3 ambientes: living, habitación y cocina. Incluye baño, ventanas y balcón. Departamento sin uso hace 2 meses. Los productos de limpieza los proveo yo. Que sean 2 personas idealmente.',
-      categoria: 'LIMPIEZA',
-      zona: 'Recoleta',
-      esAConvenir: true,
-      estado: 'ABIERTA',
-      contratanteId: juan.id,
-    },
-  });
-
-  const tarea4 = await prisma.tarea.create({
-    data: {
-      titulo: 'Compras en el supermercado y farmacia',
-      descripcion: 'Lista de compras en el Carrefour de Av. Rivadavia y luego pasar por la farmacia. Son unas 15-20 cosas. Te paso el dinero en efectivo + pago aparte por el servicio. Vivo en piso 3 con ascensor.',
-      categoria: 'MANDADOS',
-      zona: 'Floresta',
-      presupuesto: 1500,
-      esAConvenir: false,
-      estado: 'ABIERTA',
-      contratanteId: roberto.id,
-    },
-  });
-
-  const tarea5 = await prisma.tarea.create({
-    data: {
-      titulo: 'Arreglar mi computadora que no arranca',
-      descripcion: 'Mi notebook HP no enciende más. Necesito que alguien la revise y me diga qué tiene. Idealmente que la pueda reparar en el momento. Si hay que comprar alguna pieza la acordamos aparte.',
-      categoria: 'TECNOLOGIA',
-      zona: 'Caballito',
-      presupuesto: 2500,
-      esAConvenir: false,
-      estado: 'ABIERTA',
-      contratanteId: juan.id,
-    },
-  });
-
   const tarea6 = await prisma.tarea.create({
     data: {
-      titulo: 'Acompañar a mi mamá al médico en el Italiano',
-      descripcion: 'Mi mamá (78 años) tiene turno en el Hospital Italiano el miércoles a las 10am. Necesito que la busquen en Flores, la lleven en taxi y la acompañen durante la consulta (aprox 2 horas total). Que sea una persona paciente y de confianza.',
-      categoria: 'ACOMPANAMIENTO_MEDICO',
-      zona: 'Flores',
-      presupuesto: 4000,
+      titulo: 'Trámite de actualización de CBU en ANSES',
+      descripcion: 'Necesito que vayan al ANSES de Av. de Mayo al 600 a actualizar el CBU. Tengo todos los papeles listos. Pago viáticos y el servicio. Hay que ir en horario de mañana, de 9 a 12.',
+      categoria: 'TRAMITES',
+      zona: 'Almagro',
+      presupuesto: 3500,
       esAConvenir: false,
       estado: 'ABIERTA',
-      contratanteId: roberto.id,
-      fechaLimite: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      contratanteId: juan.id,
+      fechaLimite: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
     },
   });
 
   const tarea7 = await prisma.tarea.create({
     data: {
       titulo: 'Llevar un sillón de 2 cuerpos de Boedo a Villa del Parque',
-      descripcion: 'Tengo un sillón grande (2 cuerpos, entra en una camioneta) que necesito llevar de Boedo a Villa del Parque. Unos 8 km. Necesito ayuda para cargarlo también, que seamos 2 personas mínimo.',
-      categoria: 'DELIVERY',
+      descripcion: 'Sillón grande que necesito mover de Boedo a Villa del Parque (unos 8 km). Necesito camioneta y ayuda para cargarlo entre dos personas.',
+      categoria: 'MUDANZAS',
       zona: 'Boedo',
       presupuesto: 5000,
       esAConvenir: false,
@@ -200,12 +200,11 @@ async function main() {
 
   const tarea8 = await prisma.tarea.create({
     data: {
-      titulo: 'Cuidado de dos nenas de tarde (3 y 5 años)',
-      descripcion: 'Busco niñera para cuidar a mis nenas martes y jueves de 14 a 18hs mientras yo trabajo. Que tenga experiencia con chicos, sea puntual y tenga referencias. Las nenas son re buenas.',
-      categoria: 'CUIDADO_PERSONAS',
-      zona: 'Villa Crespo',
-      presupuesto: 3000,
-      esAConvenir: false,
+      titulo: 'Cortar pasto y desmalezar fondo de casa',
+      descripcion: 'Fondo de casa de unos 50m². Hay pasto alto y maleza en los bordes. Si tenés desmalezadora mejor. La casa tiene salida por la galería, fácil acceso.',
+      categoria: 'CORTE_PASTO',
+      zona: 'Flores',
+      esAConvenir: true,
       estado: 'ABIERTA',
       contratanteId: ana.id,
     },
@@ -213,8 +212,8 @@ async function main() {
 
   const tarea9 = await prisma.tarea.create({
     data: {
-      titulo: 'Trámite en el Registro Civil para DNI nuevo',
-      descripcion: 'Necesito que alguien saque turno y vaya al Registro Civil a sacar el duplicado de DNI de mi hijo (tengo todo listo: fotos, papeles). La sede queda en San Martín al 1500.',
+      titulo: 'Sacar turno y hacer trámite en el Registro Civil',
+      descripcion: 'Necesito sacar el duplicado de DNI de mi hijo menor. Tengo todo listo: fotos, partida de nacimiento, DNI propio. La sede queda en San Martín al 1500. Puede ser cualquier día de la semana.',
       categoria: 'TRAMITES',
       zona: 'Palermo',
       esAConvenir: true,
@@ -225,11 +224,11 @@ async function main() {
 
   const tarea10 = await prisma.tarea.create({
     data: {
-      titulo: 'Enseñarme a usar WhatsApp y el celular nuevo',
-      descripcion: 'Acabo de comprar un celular Android y no entiendo nada. Necesito que alguien venga a casa y me enseñe a usar WhatsApp, mandar fotos, y usar el banco digital. Que tenga paciencia para explicar despacio.',
-      categoria: 'TECNOLOGIA',
+      titulo: 'Lavado y encerado de camioneta Hilux',
+      descripcion: 'Camioneta grande, necesita lavado exterior completo + encerado + limpieza de llantas. Tengo toma de agua en el garaje. Que traigan sus materiales.',
+      categoria: 'LAVADO_AUTO',
       zona: 'Almagro',
-      presupuesto: 2000,
+      presupuesto: 5500,
       esAConvenir: false,
       estado: 'COMPLETADA',
       contratanteId: juan.id,
@@ -240,18 +239,8 @@ async function main() {
   await prisma.postulacion.create({
     data: {
       tareaId: tarea1.id,
-      changadorId: maria.id,
-      mensaje: '¡Hola! Tengo experiencia en trámites del ANSES, ya fui varias veces por otros vecinos. Conozco el sistema y sé cómo proceder para que salga en una sola visita. Disponible mañana o pasado.',
-      precioOfrecido: 3000,
-      estado: 'PENDIENTE',
-    },
-  });
-
-  await prisma.postulacion.create({
-    data: {
-      tareaId: tarea1.id,
       changadorId: roberto.id,
-      mensaje: 'Dale, puedo ir. Ya fui al ANSES de Mayo al 600 antes, conozco la oficina. Llevame los papeles y lo resuelvo.',
+      mensaje: 'Tengo cortadora a nafta y rastrillo. Puedo el miércoles o jueves a la tarde. El tamaño que describís lo resuelvo en una hora.',
       precioOfrecido: 3500,
       estado: 'PENDIENTE',
     },
@@ -259,10 +248,20 @@ async function main() {
 
   await prisma.postulacion.create({
     data: {
-      tareaId: tarea6.id,
-      changadorId: laura.id,
-      mensaje: 'Soy enfermera con experiencia en adultos mayores. Puedo acompañar a tu mamá con toda la atención que merece. Tengo referencias de familias en Flores. Charlemos los detalles.',
+      tareaId: tarea1.id,
+      changadorId: maria.id,
+      mensaje: 'Hola! Tengo cortadora eléctrica y puedo ir el martes. Ya hice varios jardines en Palermo, quedé bien con todos.',
       precioOfrecido: 4000,
+      estado: 'PENDIENTE',
+    },
+  });
+
+  await prisma.postulacion.create({
+    data: {
+      tareaId: tarea6.id,
+      changadorId: maria.id,
+      mensaje: 'Hola! Conozco el ANSES de Mayo al 600, ya fui por otros vecinos. Disponible el lunes a la mañana.',
+      precioOfrecido: 3000,
       estado: 'PENDIENTE',
     },
   });
@@ -271,7 +270,7 @@ async function main() {
     data: {
       tareaId: tarea7.id,
       changadorId: carlos.id,
-      mensaje: 'Tengo camioneta pick-up, podemos ir entre los dos a cargarlo sin drama. De Boedo a Villa del Parque son 20 minutos a esa hora.',
+      mensaje: 'Tengo camioneta pick-up, podemos ir entre los dos a cargarlo sin problema. De Boedo a Villa del Parque son 20 minutos.',
       precioOfrecido: 4500,
       estado: 'ACEPTADA',
     },
@@ -284,7 +283,7 @@ async function main() {
       autorId: juan.id,
       destinatarioId: ana.id,
       puntaje: 5,
-      comentario: '¡Excelente! Ana tuvo toda la paciencia del mundo para enseñarme. Ahora le mando fotos a los nietos por WhatsApp. Re recomendada.',
+      comentario: 'Excelente trabajo, dejó la camioneta impecable. Muy prolija y puntual.',
     },
   });
 
@@ -294,11 +293,11 @@ async function main() {
       autorId: ana.id,
       destinatarioId: juan.id,
       puntaje: 5,
-      comentario: 'Juan es muy agradable y se las rebuscó rapidísimo. Una experiencia linda trabajar con él.',
+      comentario: 'Juan es muy agradable y el lugar era fácil de trabajar. Recomendado.',
     },
   });
 
-  // Mensajes del chat de tarea7
+  // Mensajes del chat de tarea7 (EN_CURSO)
   await prisma.mensaje.create({
     data: {
       tareaId: tarea7.id,
@@ -319,7 +318,7 @@ async function main() {
     data: {
       tareaId: tarea7.id,
       emisorId: maria.id,
-      contenido: 'Perfecto, a las 9 lo espero. Te mando la dirección exacta por acá.',
+      contenido: 'Perfecto, a las 9 los espero. Te mando la dirección exacta por acá.',
     },
   });
 

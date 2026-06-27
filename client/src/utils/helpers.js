@@ -11,14 +11,12 @@ export function formatPeso(amount) {
 }
 
 export const CATEGORIAS = {
-  TRAMITES: { label: 'Trámites y gestiones', emoji: '📋' },
-  MANDADOS: { label: 'Mandados y compras', emoji: '🛒' },
+  CORTE_PASTO: { label: 'Corte de pasto', emoji: '🌿' },
+  BARRIDO_VEREDA: { label: 'Barrido / limpieza de vereda', emoji: '🧹' },
+  LIMPIEZA_VIDRIOS: { label: 'Limpieza de vidrios y ventanas', emoji: '🪟' },
+  LAVADO_AUTO: { label: 'Lavado de auto a domicilio', emoji: '🚗' },
   MUDANZAS: { label: 'Mudanzas y fletes', emoji: '📦' },
-  DELIVERY: { label: 'Traslado / Delivery', emoji: '🚐' },
-  LIMPIEZA: { label: 'Limpieza del hogar', emoji: '🧹' },
-  TECNOLOGIA: { label: 'Ayuda con tecnología', emoji: '💻' },
-  CUIDADO_PERSONAS: { label: 'Cuidado de personas', emoji: '🤝' },
-  ACOMPANAMIENTO_MEDICO: { label: 'Acompañamiento médico', emoji: '🏥' },
+  TRAMITES: { label: 'Trámites y gestiones', emoji: '📋' },
   OTROS: { label: 'Otros', emoji: '⭐' },
 };
 
